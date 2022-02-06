@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\DataChildrenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KecamatanController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\HeightGirlController;
 use App\Http\Controllers\HeightBoyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MotherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +49,7 @@ Route::post('/register',[RegisterController::class,'register']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout',[LoginController::class,'logoutUser']);
+    Route::post('/mother/add',[MotherController::class,'store']);
+    Route::post('/children/add',[ChildrenController::class,'store']);
+    Route::post('/data-children/add',[DataChildrenController::class,'store']);
 });
