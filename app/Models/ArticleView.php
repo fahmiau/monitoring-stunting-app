@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ArticleView extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
 }

@@ -40,6 +40,10 @@ Route::get('/kecamatan/by-kota-kabupaten/{kota_kabupaten_id}',[KecamatanControll
 Route::get('/kelurahan/by-kecamatan/{kecamatan_id}',[KelurahanController::class,'showByKecamatan']);
 Route::get('/kelurahan/detail/{id}',[KelurahanController::class,'show']);
 
-Route::post('/registration',[RegisterController::class,'store']);
 
 Route::post('/login',[LoginController::class,'loginUser']);
+Route::post('/register',[RegisterController::class,'register']);
+
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::post('/logout',[LoginController::class,'logoutUser']);
+});

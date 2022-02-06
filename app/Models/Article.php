@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function comments()
+    {
+        return $this->hasMany(ArticleComment::class);
+    }
+
+    public function views()
+    {
+        return $this->hasOne(ArticleView::class);
+    }
 }

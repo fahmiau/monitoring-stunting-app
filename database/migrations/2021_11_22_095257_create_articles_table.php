@@ -16,8 +16,10 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->mediumText('body');
+            $table->string('slug');
+            $table->mediumText('content');
             $table->string('author')->nullable();
+            $table->boolean('published')->default(false);
             $table->date('publish_date')->nullable();
             $table->timestamps();
         });

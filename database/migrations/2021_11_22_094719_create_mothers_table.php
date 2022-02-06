@@ -22,6 +22,9 @@ class CreateMothersTable extends Migration
             $table->char('pendidikan',5);
             $table->char('pekerjaan',20);
             $table->foreignId('kelurahan_id')->constrained();
+            $table->foreignId('kecamatan_id')->constrained();
+            $table->foreignId('kota_kabupaten_id')->constrained();
+            $table->foreignId('provinsi_id')->constrained();
             $table->string('alamat');
             $table->char('nomor_telepon',14);
             $table->char('tempat_lahir',15);

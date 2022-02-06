@@ -16,8 +16,11 @@ class CreateStatusChildrensTable extends Migration
         Schema::create('status_childrens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('children_id')->constrained();
-            $table->enum('status_stunting',['Stunting','Terancam Stunting','Normal']);
-            $table->enum('status_perkembangan',['Dibawah Standar','Diatas Standar','Normal']);
+            $table->foreignId('provinsi_id')->constrained();
+            $table->foreignId('kota_kabupaten_id')->constrained();
+            $table->foreignId('kecamatan_id')->constrained();
+            $table->foreignId('kelurahan_id')->constrained();
+            $table->enum('status_stunting',['Dibawah Standar','Diatas Standar','Normal']);
             $table->timestamps();
         });
     }

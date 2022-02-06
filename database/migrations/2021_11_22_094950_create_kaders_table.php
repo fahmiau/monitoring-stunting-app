@@ -15,7 +15,13 @@ class CreateKadersTable extends Migration
     {
         Schema::create('kaders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained();
+            $table->char('nik',16)->unique();
+            $table->foreignId('kelurahan_id')->constrained();
+            $table->foreignId('kecamatan_id')->constrained();
+            $table->foreignId('kota_kabupaten_id')->constrained();
+            $table->foreignId('provinsi_id')->constrained();
+            $table->string('alamat');
         });
     }
 

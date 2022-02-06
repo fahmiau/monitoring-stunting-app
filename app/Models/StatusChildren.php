@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class StatusChildren extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function children()
+    {
+        return $this->belongsTo(Children::class);
+    }
 }

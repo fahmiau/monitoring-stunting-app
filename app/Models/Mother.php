@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Mother extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function childrens()
+    {
+        return $this->hasMany(Children::class);
+    }
+
 }
