@@ -26,4 +26,17 @@ class DataChildrenController extends Controller
 
         return response($response);
     }
+
+    public function getByChild($children_id)
+    {
+        $data_children = DataChildren::where('children_id',$children_id)->get();
+        if ($data_children == null) {
+            return response(['message' => 'Data Bulanan Belum Ada']);
+        }
+
+        return response([
+            'data' => $data_children,
+            'message' => 'Data Berhasil Ditemukan'
+        ]);
+    }
 }

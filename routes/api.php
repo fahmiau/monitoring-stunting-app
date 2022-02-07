@@ -49,7 +49,13 @@ Route::post('/register',[RegisterController::class,'register']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout',[LoginController::class,'logoutUser']);
+
     Route::post('/mother/add',[MotherController::class,'store']);
+    Route::post('/mother/update/{id}',[MotherController::class,'update']);
+    Route::delete('/mother/delete/{id}',[MotherController::class,'destroy']);
+
     Route::post('/children/add',[ChildrenController::class,'store']);
+
     Route::post('/data-children/add',[DataChildrenController::class,'store']);
+    Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
 });
