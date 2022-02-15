@@ -11,15 +11,13 @@ use App\Models\Kelurahan;
 class KelurahanController extends Controller
 {
     public function all(){
-        $kelurahan = KotaKabupaten::all();
+        $kelurahan = Kelurahan::all();
 
         return response()->json($kelurahan);
     }
 
     public function show($id){
         $kelurahan = Kelurahan::where('id',$id)->first();
-        
-        $kecamatan = Kecamatan::where('id',$kelurahan->kecamatan_id);
         $data_daerah = [
             'kelurahan' => $kelurahan->kelurahan,
             'kecamatan' => $kelurahan->kecamatan->kecamatan,

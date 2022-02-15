@@ -19,7 +19,7 @@ class KotaKabupatenController extends Controller
                         ->join('provinsis','provinsis.id','=','kota_kabupatens.provinsi_id')
                         ->get();
 
-        return response()->json($kecamatan);
+        return response()->json($kota_kabupaten);
     }
 
     public function showByProvinsi($provinsi_id){
