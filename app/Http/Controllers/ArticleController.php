@@ -9,9 +9,16 @@ use Illuminate\Http\Response;
 
 class ArticleController extends Controller
 {
-    public function getAllArticle()
+    public function index()
     {
-        $response = Article::where('published', true)->get();
+        $response = Article::all();
+
+        return response($response);
+    }
+
+    public function getPublishedArticle()
+    {
+        $response = Article::where('published', true)->with('views')->get();
 
         return response($response);
     }
@@ -24,13 +31,24 @@ class ArticleController extends Controller
             'views' => 0
         ]);
 
-        return response(['message'=> 'Article Berhasil Disimpan']);
+        return response(['data' => $article,'message'=> 'success']);
+    }
+
+    public function show($id)
+    {
+        $views = ArticleView::where('article_id',$id)->first();
+        $views->views +=1;
+        $views->update();
+
+        $article = Article::find($id)->with('views','comments')->get();
+
+        return response(['data'=>$article,'message'=>'success']);
     }
 
     public function update(Request $request)
     {
         $article = Article::find($request->id)->update($request->all());
 
-        return response($article);
+        return response(['data' => $article, 'message' => 'success']);
     }
 }

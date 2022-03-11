@@ -21,15 +21,16 @@ class LoginController extends Controller
     
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response([
-                'email' => ['Email atau Password Tidak Sesuai'],
-            ]);
+                'message' => 'Email atau Password Tidak Sesuai',
+            ],401);
         }
     
         $token = $user->createToken('apptoken')->plainTextToken;
-
+        $role = $user->role;
         return response([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'role' => $role
         ]);
     }
 

@@ -1,20 +1,19 @@
 <?php
 
-use App\Http\Controllers\ChildrenController;
-use App\Http\Controllers\DataChildrenController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KecamatanController;
-use App\Http\Controllers\KelurahanController;
-use App\Http\Controllers\KotaKabupatenController;
-use App\Http\Controllers\ProvinsiController;
-use App\Http\Controllers\WeightGirlController;
-use App\Http\Controllers\WeightBoyController;
-use App\Http\Controllers\HeightGirlController;
-use App\Http\Controllers\HeightBoyController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\GraphController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MotherController;
+use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\ProvinsiController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\DataChildrenController;
+use App\Http\Controllers\KotaKabupatenController;
+use App\Models\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +30,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/weight-boy/all',[WeightBoyController::class,'all']);
-Route::get('/weight-girl/all',[WeightGirlController::class,'all']);
-Route::get('/height-boy/all',[HeightBoyController::class,'all']);
-Route::get('/height-girl/all',[HeightGirlController::class,'all']);
+Route::get('/weight-boy/all',[GraphController::class,'getBoyWeight']);
+Route::get('/weight-girl/all',[GraphController::class,'getGirlWeight']);
+Route::get('/height-boy/all',[GraphController::class,'getBoyHeight']);
+Route::get('/height-girl/all',[GraphController::class,'getGirlHeight']);
+Route::get('/graph/{jk}/{type}/{children_id}',[GraphController::class,'getWithDataChildren']);
 
 
 Route::get('/provinsi/all',[ProvinsiController::class,'all']);
@@ -43,19 +43,30 @@ Route::get('/kecamatan/by-kota-kabupaten/{kota_kabupaten_id}',[KecamatanControll
 Route::get('/kelurahan/by-kecamatan/{kecamatan_id}',[KelurahanController::class,'showByKecamatan']);
 Route::get('/kelurahan/detail/{id}',[KelurahanController::class,'show']);
 
+Route::get('/all-article',[ArticleController::class,'index']);
+Route::get('/published-article',[ArticleController::class,'getPublishedArticle']);
+Route::get('/show-article/{id}',[ArticleController::class,'show']);
+
 
 Route::post('/login',[LoginController::class,'loginUser']);
 Route::post('/register',[RegisterController::class,'register']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout',[LoginController::class,'logoutUser']);
-
+    
+    Route::get('/mother/all',[MotherController::class,'index']);
     Route::post('/mother/add',[MotherController::class,'store']);
     Route::post('/mother/update/{id}',[MotherController::class,'update']);
     Route::delete('/mother/delete/{id}',[MotherController::class,'destroy']);
-
+    
     Route::post('/children/add',[ChildrenController::class,'store']);
-
     Route::post('/data-children/add',[DataChildrenController::class,'store']);
     Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
+
+    Route::post('/new-article',[ArticleController::class,'store']);
+    Route::post('/update-article,{id}',[ArticleController::class,'update']);
+    Route::post('/delete-article/{id}',[ArticleController::class,'delete']);
+
+    Route::get('/get-post-comments/{id}',[]);
+    Route::post('/new-comment','');
 });

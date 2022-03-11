@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Children;
 use App\Models\DataChildren;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,7 +23,7 @@ class DataChildrenController extends Controller
         $data_children = DataChildren::create($validated);
         $response = [
             'data_children' => $data_children,
-            'message' => 'Data Bulanan Anak Telah Tersimpan'
+            'message' => 'success'
         ];
 
         return response($response);
@@ -30,14 +31,14 @@ class DataChildrenController extends Controller
 
     public function getByChild($children_id)
     {
-        $data_children = DataChildren::where('children_id',$children_id)->get();
+        $data_children = Children::find($children_id)->first()->with('dataChildrens')->get();
         if ($data_children == null) {
             return response(['message' => 'Data Bulanan Belum Ada']);
         }
 
         return response([
             'data' => $data_children,
-            'message' => 'Data Berhasil Ditemukan'
+            'message' => 'success'
         ]);
     }
 }

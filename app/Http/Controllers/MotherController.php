@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class MotherController extends Controller
 {
+    public function index()
+    {
+        $data = Mother::with('childrens')->get();
+        return response($data);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

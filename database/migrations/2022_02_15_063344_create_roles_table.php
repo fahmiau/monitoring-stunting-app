@@ -16,7 +16,7 @@ class CreateRolesTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->enum('category',['Perawat','Bidan','Kader','User']);
+            $table->enum('category',['Perawat','Bidan','Kader','User','Admin']);
             $table->timestamps();
         });
     }
