@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Children;
 use App\Models\Kelurahan;
+use App\Models\StatusChildren;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -45,6 +46,13 @@ class ChildrenController extends Controller
         ];
 
         return response($response);
+    }
+
+    public function getAllChildren()
+    {
+        $children = StatusChildren::with('children.mother')->get();
+        
+        return $children;
     }
     
 }

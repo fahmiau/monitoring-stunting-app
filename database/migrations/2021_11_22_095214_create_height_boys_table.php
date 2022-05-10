@@ -16,13 +16,13 @@ class CreateHeightBoysTable extends Migration
         Schema::create('height_boys', function (Blueprint $table) {
             $table->id();
             $table->integer('months');
-            $table->float('-3sd');
-            $table->float('-2sd');
-            $table->float('-1sd');
+            $table->float('negative_3sd');
+            $table->float('negative_2sd');
+            $table->float('negative_1sd');
             $table->float('median');
-            $table->float('1sd');
-            $table->float('2sd');
-            $table->float('3sd');
+            $table->float('positive_1sd');
+            $table->float('positive_2sd');
+            $table->float('positive_3sd');
         });
     }
 
