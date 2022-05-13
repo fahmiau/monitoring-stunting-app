@@ -54,5 +54,19 @@ class ChildrenController extends Controller
         
         return $children;
     }
+
+    public function getChildrenById($id)
+    {
+        $children = Children::where('id',$id)->with(['dataChildrens','statusChildren'])->first();
+
+        return $children;
+    }
+
+    public function getChildrenByMotherId($mother_id)
+    {
+        $children = Children::where('mother_id',$mother_id)->with(['dataChildrens','statusChildren'])->first();
+
+        return $children;
+    }
     
 }

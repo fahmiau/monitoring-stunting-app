@@ -85,6 +85,13 @@ class MotherController extends Controller
         return response($response);
     }
 
+    public function getMotherByUserId($user_id)
+    {
+        $mother = Mother::where('user_id',$user_id)->with('childrens.statusChildren')->first();
+
+        return response($mother);
+    }
+
     public function destroy($id)
     {
         $response = [

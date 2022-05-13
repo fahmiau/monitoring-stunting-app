@@ -15,34 +15,34 @@ class GraphController extends Controller
     public function dataProcess($data)
     {
         $month = [];
-        $m3sd = [];
-        $m2sd = [];
-        $m1sd = [];
+        $negative_3sd = [];
+        $negative_2sd = [];
+        $negative_1sd = [];
         $median = [];
-        $p3sd = [];
-        $p2sd = [];
-        $p1sd = [];
+        $positive_3sd = [];
+        $positive_2sd = [];
+        $positive_1sd = [];
 
         for ($i=0; $i < 61; $i++) { 
             array_push($month,$data[$i]['months']);
-            array_push($m3sd,$data[$i]['negative_3sd']);
-            array_push($m2sd,$data[$i]['negative_2sd']);
-            array_push($m1sd,$data[$i]['negative_1sd']);
+            array_push($negative_3sd,$data[$i]['negative_3sd']);
+            array_push($negative_2sd,$data[$i]['negative_2sd']);
+            array_push($negative_1sd,$data[$i]['negative_1sd']);
             array_push($median,$data[$i]['median']);
-            array_push($p3sd,$data[$i]['positive_3sd']);
-            array_push($p2sd,$data[$i]['positive_2sd']);
-            array_push($p1sd,$data[$i]['positive_1sd']);
+            array_push($positive_3sd,$data[$i]['positive_3sd']);
+            array_push($positive_2sd,$data[$i]['positive_2sd']);
+            array_push($positive_1sd,$data[$i]['positive_1sd']);
         }
 
         $graph_data = [
             'months' => $month,
-            'm3sd' => $m3sd,
-            'm2sd' => $m2sd,
-            'm1sd' => $m1sd,
+            'negative_3sd' => $negative_3sd,
+            'negative_2sd' => $negative_2sd,
+            'negative_1sd' => $negative_1sd,
             'median' => $median,
-            'p3sd' => $p3sd,
-            'p2sd' => $p2sd,
-            'p1sd' => $p1sd,
+            'positive_3sd' => $positive_3sd,
+            'positive_2sd' => $positive_2sd,
+            'positive_1sd' => $positive_1sd,
         ];
 
         return $graph_data;

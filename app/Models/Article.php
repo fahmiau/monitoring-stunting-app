@@ -20,4 +20,9 @@ class Article extends Model
     {
         return $this->hasOne(ArticleView::class);
     }
+
+    public function likes()
+    {
+        return $this->hasOne(ArticleLike::class);
+    }
 }

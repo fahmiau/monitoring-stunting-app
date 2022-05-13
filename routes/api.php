@@ -43,8 +43,6 @@ Route::get('/kecamatan/by-kota-kabupaten/{kota_kabupaten_id}',[KecamatanControll
 Route::get('/kelurahan/by-kecamatan/{kecamatan_id}',[KelurahanController::class,'showByKecamatan']);
 Route::get('/kelurahan/detail/{id}',[KelurahanController::class,'show']);
 
-Route::get('/all-article',[ArticleController::class,'index']);
-Route::get('/published-article',[ArticleController::class,'getPublishedArticle']);
 Route::get('/show-article/{id}',[ArticleController::class,'show']);
 
 
@@ -55,18 +53,25 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout',[LoginController::class,'logoutUser']);
     
     Route::get('/mother/all',[MotherController::class,'index']);
+    Route::get('/mother/{user_id}',[MotherController::class,'getMotherByUserId']);
     Route::post('/mother/add',[MotherController::class,'store']);
     Route::post('/mother/update/{id}',[MotherController::class,'update']);
     Route::delete('/mother/delete/{id}',[MotherController::class,'destroy']);
     
     Route::post('/children/add',[ChildrenController::class,'store']);
     Route::get('/children/all',[ChildrenController::class,'getAllChildren']);
+    Route::get('/children/id/{id}',[ChildrenController::class,'getChildrenById']);
+    Route::get('/children/mother_id/{mother_id}',[ChildrenController::class,'getChildrenByMotherId']);
     Route::post('/data-children/add',[DataChildrenController::class,'store']);
     Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
+    
+    
+    Route::get('/article/all',[ArticleController::class,'index']);
+    Route::get('/article/published',[ArticleController::class,'getPublishedArticle']);
 
-    Route::post('/new-article',[ArticleController::class,'store']);
-    Route::post('/update-article,{id}',[ArticleController::class,'update']);
-    Route::post('/delete-article/{id}',[ArticleController::class,'delete']);
+    Route::post('/article/new',[ArticleController::class,'store']);
+    Route::post('/article/update/{id}',[ArticleController::class,'update']);
+    Route::post('/article/delete/{id}',[ArticleController::class,'delete']);
 
     // Route::get('/get-post-comments/{id}',[]);
     // Route::post('/new-comment','');
