@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Children;
 use App\Models\Kelurahan;
+use App\Models\Mother;
 use App\Models\StatusChildren;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -53,6 +54,31 @@ class ChildrenController extends Controller
         $children = StatusChildren::with('children.mother')->get();
         
         return $children;
+    }
+
+    public function getAllChildrenByProvinsi($provinsi_id)
+    {
+        $childrens = Mother::has('childrens')->where('provinsi_id',$provinsi_id)->with('childrens.statusChildren')->get(['id','nama']);
+        return response($childrens);
+    }
+
+    public function getAllChildrenByKotaKabupaten($kota_kabupaten_id)
+    {
+        $childrens = Mother::has('childrens')->where('kota_kabupaten_id',$kota_kabupaten_id)->with('childrens.statusChildren')->get(['id','nama']);
+        return response($childrens);
+    }
+
+
+    public function getAllChildrenByKecamatan($kecamatan_id)
+    {
+        $childrens = Mother::has('childrens')->where('kecamatan_id',$kecamatan_id)->with('childrens.statusChildren')->get(['id','nama']);
+        return response($childrens);
+    }
+
+    public function getAllChildrenByKelurahan($kelurahan_id)
+    {
+        $childrens = Mother::has('childrens')->where('kelurahan_id',$kelurahan_id)->with('childrens.statusChildren')->get(['id','nama']);
+        return response($childrens);
     }
 
     public function getChildrenById($id)

@@ -46,4 +46,19 @@ class User extends Authenticatable
     {
         return $this->hasOne(Role::class);
     }
+
+    public function nakes()
+    {
+        return $this->hasOne(TenagaKesehatan::class);
+    }
+
+    public function kader()
+    {
+        return $this->hasOne(Kader::class);
+    }
+
+    public function mothers()
+    {
+        return $this->hasMany(Mother::class);
+    }
 }

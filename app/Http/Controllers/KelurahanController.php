@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kader;
 use Illuminate\Http\Request;
 use App\Models\KotaKabupaten;
 use App\Models\Provinsi;
 use App\Models\Kecamatan;
 use App\Models\Kelurahan;
+use App\Models\Role;
+use App\Models\TenagaKesehatan;
+use App\Models\User;
 
 class KelurahanController extends Controller
 {
@@ -31,5 +35,24 @@ class KelurahanController extends Controller
         $kelurahan = Kelurahan::where('kecamatan_id',$kecamatan_id)->get();
         
         return response($kelurahan);
+    }
+
+    public function showByUserId($user_id)
+    {
+        $user = User::find($user_id);
+
+        
+        switch ($user->role->category) {
+            case 'Perawat':
+            case 'Bidan';
+                $data_daerah = TenagaKesehatan::where('user_id',$user_id)->first(['kelurahan_id','kecamatan_id','kota_kabupaten_id','provinsi_id']);
+                break;
+            case 'Kader';
+                $data_daerah = Kader::where('user_id',$user_id)->first(['kelurahan_id','kecamatan_id','kota_kabupaten_id','provinsi_id']);
+            default:
+                return response('Tidak ada data Kelurahan untuk user id '.$user_id);
+                break;
+        }
+        return response($data_daerah);
     }
 }

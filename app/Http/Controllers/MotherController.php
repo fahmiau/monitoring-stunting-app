@@ -101,4 +101,10 @@ class MotherController extends Controller
 
         return response($response);
     }
+
+    public function getMotherHasChildren()
+    {
+        $data = Mother::has('childrens')->with('childrens.statusChildren')->get(['id','nama']);
+        return response($data);
+    }
 }

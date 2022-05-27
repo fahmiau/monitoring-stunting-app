@@ -24,14 +24,15 @@ class DataChildrenController extends Controller
         ]);
 
         $data_children = DataChildren::create($validated);
-        $status_children = ['children_id' => $data_children->children_id,
-                            'provinsi_id' => $data_children->children->provinsi_id,
+        $status_children = ['provinsi_id' => $data_children->children->provinsi_id,
                             'kota_kabupaten_id' => $data_children->children->kota_kabupaten_id,
                             'kecamatan_id' => $data_children->children->kecamatan_id,
                             'kelurahan_id' => $data_children->children->kelurahan_id,
                             'status_stunting' => $this->getStatusStunting($data_children->bulan_ke, $data_children->panjang_badan, $data_children->children->jenis_kelamin),
                             ];
-        $store_status_children = StatusChildren::create($status_children);
+        $store_status_children = StatusChildren::updateOrCreate(
+            ['children_id' => $data_children->children_id],
+            $status_children);
         $response = [
             'data_children' => $data_children,
             'status' => $store_status_children->status_stunting,
@@ -70,11 +71,11 @@ class DataChildrenController extends Controller
     public function getByChild($children_id)
     {
         // $data_children = Children::find($children_id)->first()->with('dataChildrens')->get();
-        $status_children = StatusChildren::find($children_id)->first()->with('children.dataChildrens')->get();
-        if ($status_children == null) {
+        $status_children = StatusChildren::find($children_id);
+        if (! $status_children) {
             return response(['message' => 'Data Bulanan Belum Ada']);
         }
-
+        $status_children->children->dataChildrens;
         return response([
             'data' => $status_children,
             'message' => 'success'

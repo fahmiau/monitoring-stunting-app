@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
+use App\Models\Children;
+use App\Models\Kader;
+use App\Models\Mother;
+use App\Models\StatusChildren;
+use App\Models\TenagaKesehatan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +30,7 @@ class LoginController extends Controller
                 'message' => 'Email atau Password Tidak Sesuai',
             ],401);
         }
-    
+        $user->tokens()->delete();
         $token = $user->createToken('apptoken')->plainTextToken;
         $role = $user->role;
         return response([
@@ -39,5 +45,23 @@ class LoginController extends Controller
         auth()->user()->tokens()->delete();
 
         return ['message' => 'Logout Berhasil'];
+    }
+
+    public function dashboard()
+    {
+        $data = [
+            'user' => User::count(),
+            'nakes' => TenagaKesehatan::count(),
+            'kader' => Kader::count(),
+            'mother' => Mother::count(),
+            'article' => Article::count(),
+            'children' => Children::count(),
+            'status_sangat_dibawah' => StatusChildren::where('status_stunting','Sangat Dibawah Standar')->count(),
+            'status_dibawah' => StatusChildren::where('status_stunting','Dibawah Standar')->count(),
+            'status_normal' => StatusChildren::where('status_stunting','Normal')->count(),
+            'status_diatas' => StatusChildren::where('status_stunting','Diatas Standar')->count(),
+
+        ];
+        return response($data);
     }
 }

@@ -20,7 +20,7 @@ class ArticleController extends Controller
 
     public function getPublishedArticle()
     {
-        $response = Article::where('published', true)->with(['views','likes'])->get(['id','title','slug','excerpt','author','publish_date']);
+        $response = Article::where('published', 1)->with(['views','likes'])->get(['id','title','slug','excerpt','author','publish_date']);
 
         return response($response);
     }
@@ -50,21 +50,42 @@ class ArticleController extends Controller
         return response(['data' => $article,'message'=> 'success']);
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $views = ArticleView::where('article_id',$id)->first();
+        $article = Article::where('slug',$slug)->with(['views','comments'])->first();
+        $views = ArticleView::where('article_id',$article->id)->first();
         $views->views +=1;
         $views->update();
 
-        $article = Article::find($id)->with('views','comments')->get();
 
         return response(['data'=>$article,'message'=>'success']);
     }
 
-    public function update(Request $request)
+    public function showAdmin($slug)
     {
-        $article = Article::find($request->id)->update($request->all());
+        $article = Article::where('slug',$slug)->first();
 
-        return response(['data' => $article, 'message' => 'success']);
+        return response($article);
+    }
+
+    public function update($slug, Request $request)
+    {
+        $article = Article::where('slug',$slug)->update($request->all());
+
+        return response(['slug' => $slug, 'message' => 'success']);
+    }
+
+    public function delete($slug)
+    {
+        $article = Article::where('slug',$slug)->first();
+        // $article_views = ArticleView::where('article_id',$article->id)->delete();
+        // $article_likes = ArticleView::where('article_id',$article->id)->delete();
+        $article->likes->delete();
+        $article->views->delete();
+        if (!$article->comments) {
+            $article->comments->delete();
+        }
+        $article->delete();
+        return response($article);
     }
 }
