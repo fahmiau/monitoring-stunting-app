@@ -80,9 +80,13 @@ class ArticleController extends Controller
         $article = Article::where('slug',$slug)->first();
         // $article_views = ArticleView::where('article_id',$article->id)->delete();
         // $article_likes = ArticleView::where('article_id',$article->id)->delete();
-        $article->likes->delete();
-        $article->views->delete();
-        if (!$article->comments) {
+        if ($article->likes){
+            $article->likes->delete();
+        }
+        if ($article->views){
+            $article->views->delete();
+        }
+        if (count($article->comments) > 0) {
             $article->comments->delete();
         }
         $article->delete();
