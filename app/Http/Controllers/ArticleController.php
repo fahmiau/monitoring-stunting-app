@@ -36,7 +36,12 @@ class ArticleController extends Controller
             'slug' => Str::slug($request->title,'-'),
             'excerpt' => Str::limit($request->body, 100)
         ]);
-
+        if ($request->published == 1){
+            date_default_timezone_set('Asia/Jakarta');
+            $request->request->add([
+                'publish_date' => date('Y-m-d')
+            ]);
+        }
         $article = Article::create($request->request->all());
         ArticleView::create([
             'article_id' => $article->id,
@@ -70,6 +75,12 @@ class ArticleController extends Controller
 
     public function update($slug, Request $request)
     {
+        if ($request->published == 1){
+            date_default_timezone_set('Asia/Jakarta');
+            $request->request->add([
+                'publish_date' => date('Y-m-d')
+            ]);
+        }
         $article = Article::where('slug',$slug)->update($request->all());
 
         return response(['slug' => $slug, 'message' => 'success']);
