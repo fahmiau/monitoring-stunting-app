@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/mother/all',[MotherController::class,'index']);
     Route::get('/mother/has-children',[MotherController::class,'getMotherHasChildren']);
     Route::get('/mother/{user_id}',[MotherController::class,'getMotherByUserId']);
+    Route::get('/mother/mother-id/{mother_id}',[MotherController::class,'getMotherByMotherId']);
     Route::post('/mother/add',[MotherController::class,'store']);
     Route::post('/mother/update/{id}',[MotherController::class,'update']);
     Route::delete('/mother/delete/{id}',[MotherController::class,'destroy']);
@@ -83,9 +84,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/article/show/{slug}',[ArticleController::class,'show']);
     Route::get('/article/admin/{slug}',[ArticleController::class,'showAdmin']);
 
+    Route::delete('/article/delete/{slug}',[ArticleController::class,'delete']);
     Route::post('/article/store',[ArticleController::class,'store']);
     Route::post('/article/update/{slug}',[ArticleController::class,'update']);
-    Route::post('/article/delete/{slug}',[ArticleController::class,'delete']);
 
     // Route::get('/get-post-comments/{id}',[]);
     // Route::post('/new-comment','');
