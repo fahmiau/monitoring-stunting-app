@@ -34,7 +34,7 @@ class ArticleController extends Controller
 
         $request->request->add([
             'slug' => Str::slug($request->title,'-'),
-            'excerpt' => Str::limit($request->body, 100)
+            'excerpt' => Str::limit($request->body, 100)    
         ]);
         if ($request->published == 1){
             date_default_timezone_set('Asia/Jakarta');

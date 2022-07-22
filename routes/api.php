@@ -84,9 +84,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/article/show/{slug}',[ArticleController::class,'show']);
     Route::get('/article/admin/{slug}',[ArticleController::class,'showAdmin']);
 
-    Route::delete('/article/delete/{slug}',[ArticleController::class,'delete']);
     Route::post('/article/store',[ArticleController::class,'store']);
     Route::post('/article/update/{slug}',[ArticleController::class,'update']);
+    Route::delete('/article/delete/{slug}',[ArticleController::class,'delete']);
 
     // Route::get('/get-post-comments/{id}',[]);
     // Route::post('/new-comment','');
