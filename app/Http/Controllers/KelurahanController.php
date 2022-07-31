@@ -23,9 +23,13 @@ class KelurahanController extends Controller
     public function show($id){
         $kelurahan = Kelurahan::where('id',$id)->first();
         $data_daerah = [
+            'kelurahan_id' => $kelurahan->id,
             'kelurahan' => $kelurahan->kelurahan,
+            'kecamatan_id' => $kelurahan->kecamatan->id,
             'kecamatan' => $kelurahan->kecamatan->kecamatan,
+            'kota_kabupaten_id' => $kelurahan->kecamatan->kotaKabupaten->id,
             'kota_kabupaten' => $kelurahan->kecamatan->kotaKabupaten->kota_kabupaten,
+            'provinsi_id' => $kelurahan->kecamatan->kotaKabupaten->provinsi->id,
             'provinsi' => $kelurahan->kecamatan->kotaKabupaten->provinsi->provinsi,
         ];
         return response($data_daerah);
