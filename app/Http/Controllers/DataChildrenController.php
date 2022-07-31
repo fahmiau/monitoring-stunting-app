@@ -70,14 +70,12 @@ class DataChildrenController extends Controller
 
     public function getByChild($children_id)
     {
-        // $data_children = Children::find($children_id)->first()->with('dataChildrens')->get();
-        $status_children = StatusChildren::find($children_id);
-        if (! $status_children) {
-            return response(['message' => 'Data Bulanan Belum Ada']);
-        }
-        $status_children->children->dataChildrens;
+        $children = Children::find($children_id);
+        $children->dataChildrens;
+        $children->statusChildren;
+        $children->mother;
         return response([
-            'data' => $status_children,
+            'data' => $children,
             'message' => 'success'
         ]);
     }
