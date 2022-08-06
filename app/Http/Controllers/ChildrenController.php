@@ -29,7 +29,7 @@ class ChildrenController extends Controller
             'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
         ]);
 
-        $children = Children::create(
+        $children = Children::updateOrCreate(
             ['id' => $request->id],
             $validated
         );
