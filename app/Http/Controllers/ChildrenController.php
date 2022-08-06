@@ -29,7 +29,10 @@ class ChildrenController extends Controller
             'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
         ]);
 
-        $children = Children::create($validated);
+        $children = Children::create(
+            ['id' => $request->id],
+            $validated
+        );
         $kelurahan = Kelurahan::where('id',$children->kelurahan_id)->first();
         $data_alamat = [
             'kelurahan' => $kelurahan->kelurahan,
@@ -47,6 +50,11 @@ class ChildrenController extends Controller
         ];
 
         return response($response);
+    }
+
+    public function update(Request $request)
+    {
+        # code...
     }
 
     public function getAllChildren()
