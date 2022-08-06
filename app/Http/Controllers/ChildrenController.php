@@ -29,10 +29,7 @@ class ChildrenController extends Controller
             'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
         ]);
 
-        $children = Children::updateOrCreate(
-            ['id' => $request->id],
-            $validated
-        );
+        $children = Children::create($validated);
         $kelurahan = Kelurahan::where('id',$children->kelurahan_id)->first();
         $data_alamat = [
             'kelurahan' => $kelurahan->kelurahan,
@@ -52,9 +49,35 @@ class ChildrenController extends Controller
         return response($response);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        # code...
+        $children = Children::find($id);
+        if ($children == null) {
+            return response(['message' => 'Data anak tidak ditemukan']);
+        }
+
+        $validated = $request->validate([
+            'mother_id' => 'required|exists:App\Models\Mother,id',
+            'nama' => 'required|max:100',
+            'jenis_kelamin' => 'required',
+            'anak_ke' => 'required|numeric|min:1',
+            'alamat' => 'required|max:255',
+            'tempat_lahir' => 'required|max:15',
+            'tanggal_lahir' => 'required|date',
+            'provinsi_id' => 'required|exists:App\Models\Provinsi,id',
+            'kota_kabupaten_id' => 'required|exists:App\Models\KotaKabupaten,id',
+            'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
+            'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
+        ]);
+
+        $children->update($validated);
+        $response = [
+            'data' => $children,
+            'message' => 'Data Berhasil Diubah'
+        ];
+
+        return response($response);
+
     }
 
     public function getAllChildren()
