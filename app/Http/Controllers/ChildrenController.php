@@ -115,7 +115,7 @@ class ChildrenController extends Controller
     public function getChildrenById($id)
     {
         $children = Children::where('id',$id)->with(['dataChildrens','statusChildren'])->first();
-
+        $children->mother;
         return $children;
     }
 
