@@ -49,9 +49,9 @@ class ChildrenController extends Controller
         return response($response);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $children = Children::find($id);
+        $children = Children::find($request->id);
         if ($children == null) {
             return response(['message' => 'Data anak tidak ditemukan']);
         }
