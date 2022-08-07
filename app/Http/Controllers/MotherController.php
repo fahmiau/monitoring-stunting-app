@@ -94,8 +94,8 @@ class MotherController extends Controller
 
     public function getMotherByMotherId($mother_id)
     {
-        $mother = Mother::find($mother_id)->with('childrens.statusChildren')->first();
-
+        $mother = Mother::find($mother_id);
+        $mother->childrens->statusChildren;
         return response($mother);
     }
 
