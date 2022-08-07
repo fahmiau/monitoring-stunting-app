@@ -96,7 +96,7 @@ class MotherController extends Controller
     {
         $mother = Mother::find($mother_id);
         $mother->childrens;
-        if (isset($mother->childrens)) {
+        if (!empty($mother->childrens)) {
             $mother->childrens->statusChildren;
         }
         return response($mother);
