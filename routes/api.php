@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/children/mother_id/{mother_id}',[ChildrenController::class,'getChildrenByMotherId']);
     
     Route::post('/data-children/add',[DataChildrenController::class,'store']);
+    Route::post('/data-children/update',[DataChildrenController::class,'update']);
     Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
     
     Route::get('/status-stunting/all/provinsi/{id}',[StatusChildrenController::class,'getByProvinsi']);

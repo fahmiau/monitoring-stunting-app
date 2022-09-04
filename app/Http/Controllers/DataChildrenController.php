@@ -33,13 +33,42 @@ class DataChildrenController extends Controller
         $store_status_children = StatusChildren::updateOrCreate(
             ['children_id' => $data_children->children_id],
             $status_children);
-        $response = [
-            'data_children' => $data_children,
-            'status' => $store_status_children->status_stunting,
-            'message' => 'success'
-        ];
+        // $response = [
+        //     'data_children' => $data_children,
+        //     'status' => $store_status_children->status_stunting,
+        //     'message' => 'success'
+        // ];
+        return response(['status' => $store_status_children->status_stunting]);
+        // return response($response);
+    }
 
-        return response($response);
+    public function update(Request $request)
+    {
+        $data_children = DataChildren::find($request->id);
+        if ($data_children == null) {
+            return response(['message' => 'Data Tidak Ada']);
+        }
+
+        $validated = $request->validate([
+            'children_id' => 'required|exists:App\Models\Children,id',
+            'tanggal' => 'required|date',
+            'bulan_ke' => 'required|numeric|min:0',
+            'tempat' => 'required|max:20',
+            'berat_badan' => 'required|numeric',
+            'panjang_badan' => 'required|numeric',
+        ]);
+
+        $data_children->update($validated);
+        $status_children = ['provinsi_id' => $data_children->children->provinsi_id,
+                            'kota_kabupaten_id' => $data_children->children->kota_kabupaten_id,
+                            'kecamatan_id' => $data_children->children->kecamatan_id,
+                            'kelurahan_id' => $data_children->children->kelurahan_id,
+                            'status_stunting' => $this->getStatusStunting($data_children->bulan_ke, $data_children->panjang_badan, $data_children->children->jenis_kelamin),
+                            ];
+        $store_status_children = StatusChildren::updateOrCreate(
+            ['children_id' => $data_children->children_id],
+            $status_children);
+        return response(['status' => $store_status_children->status_stunting]);
     }
 
     public function getStatusStunting($month, $height, $gender)
