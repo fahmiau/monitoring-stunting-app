@@ -69,8 +69,8 @@ class DataChildrenController extends Controller
             ['children_id' => $data_children->children_id],
             $status_children);
         return response([
-            'status' => $store_status_children->status_stunting,
-            'data' => $data_children
+            'data' => $data_children,
+            'status' => $store_status_children->status_stunting
         ]);
     }
 
