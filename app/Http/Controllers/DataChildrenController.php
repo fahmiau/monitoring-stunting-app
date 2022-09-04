@@ -68,7 +68,10 @@ class DataChildrenController extends Controller
         $store_status_children = StatusChildren::updateOrCreate(
             ['children_id' => $data_children->children_id],
             $status_children);
-        return response(['status' => $store_status_children->status_stunting]);
+        return response([
+            'status' => $store_status_children->status_stunting,
+            'data' => $data_children
+        ]);
     }
 
     public function getStatusStunting($month, $height, $gender)
