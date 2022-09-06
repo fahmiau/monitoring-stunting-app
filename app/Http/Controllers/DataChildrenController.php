@@ -120,9 +120,9 @@ class DataChildrenController extends Controller
         $data = DataChildren::find($id);
         $result = $data->delete();
         if ($result) {
-            return ['status' => 'Data Berhasil Dihapus'];
+            return response(['message' => 'Data Berhasil Dihapus']);
         } else {
-            return ['status' => 'Data Gagal Dihapus'];
+            return response(['message' => 'Data Gagal Dihapus']);
         }
     }
 }

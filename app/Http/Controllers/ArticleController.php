@@ -101,6 +101,6 @@ class ArticleController extends Controller
             $article->comments->delete();
         }
         $article->delete();
-        return response($article);
+        return response(['message' => 'Artikel Berhasil Dihapus']);
     }
 }
