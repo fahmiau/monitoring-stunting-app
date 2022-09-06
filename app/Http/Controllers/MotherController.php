@@ -114,7 +114,9 @@ class MotherController extends Controller
                 }
             }
         }
-        $mother->childrens->delete();
+        if ($mother->childrens) {
+            $mother->childrens->delete();
+        }
         $response = [
             'data' => Mother::destroy($id),
             'message' => 'Data Ibu Berhasil Dihapus'
