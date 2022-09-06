@@ -114,4 +114,15 @@ class DataChildrenController extends Controller
             'message' => 'success'
         ]);
     }
+
+    public function destroy($id)
+    {
+        $data = DataChildren::find($id);
+        $result = $data->delete();
+        if ($result) {
+            return ['status' => 'Data Berhasil Dihapus'];
+        } else {
+            return ['status' => 'Data Gagal Dihapus'];
+        }
+    }
 }

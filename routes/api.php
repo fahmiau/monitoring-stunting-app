@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/data-children/add',[DataChildrenController::class,'store']);
     Route::post('/data-children/update',[DataChildrenController::class,'update']);
     Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
+    Route::delete('/data-children/delete/{id}',[DataChildrenController::class,'destroy']);
     
     Route::get('/status-stunting/all/provinsi/{id}',[StatusChildrenController::class,'getByProvinsi']);
     Route::get('/status-stunting/all/kota-kabupaten/{id}',[StatusChildrenController::class,'getByKotaKabupaten']);
