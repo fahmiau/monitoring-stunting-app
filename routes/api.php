@@ -45,6 +45,7 @@ Route::get('/kelurahan/by-kecamatan/{kecamatan_id}',[KelurahanController::class,
 Route::get('/kelurahan/detail/{id}',[KelurahanController::class,'show']);
 Route::get('/kelurahan/user/{user_id}',[KelurahanController::class,'showByUserId']);
 
+Route::get('/cek-status/{gender}/{bulan}/{pb}',[DataChildrenController::class,'cekStatus']);
 
 Route::post('/login',[LoginController::class,'loginUser']);
 Route::post('/register',[RegisterController::class,'register']);

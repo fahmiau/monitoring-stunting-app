@@ -125,4 +125,9 @@ class DataChildrenController extends Controller
             return response(['message' => 'Data Gagal Dihapus']);
         }
     }
+
+    public function cekStatus($gender,$bulan,$pb)
+    {
+        return response($this->getStatusStunting($bulan,$pb,$gender));
+    }
 }
