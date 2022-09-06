@@ -101,24 +101,23 @@ class MotherController extends Controller
     public function destroy($id)
     {
         $mother = Mother::find($id);
-        // return $mother->childrens[0];
         if (count($mother->childrens) > 0) {
             for ($i=0; $i < count($mother->childrens); $i++) {
-
+                
                 if ($mother->childrens[$i]->statusChildren) {
                     $mother->childrens[$i]->statusChildren->delete();
                 }
-
+                
                 if (count($mother->childrens[$i]->dataChildrens) > 0){
-                    $mother->childrens[$i]->dataChildrens->delete();
+                    $mother->childrens[$i]->dataChildrens->each->delete();
                 }
             }
         }
-        if ($mother->childrens) {
-            $mother->childrens->delete();
+        if (count($mother->childrens) > 0) {
+            $mother->childrens->each->delete();
         }
+        $mother->delete();
         $response = [
-            'data' => Mother::destroy($id),
             'message' => 'Data Ibu Berhasil Dihapus'
         ];
 
