@@ -6,6 +6,7 @@ use App\Models\Children;
 use App\Models\Kelurahan;
 use App\Models\Mother;
 use App\Models\StatusChildren;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -89,26 +90,34 @@ class ChildrenController extends Controller
 
     public function getAllChildrenByProvinsi($provinsi_id)
     {
-        $childrens = Mother::has('childrens')->where('provinsi_id',$provinsi_id)->with('childrens.statusChildren')->get(['id','nama']);
+        $childrens = Mother::whereHas('childrens',function (Builder $query) use ($provinsi_id){
+            $query->where('provinsi_id','=',$provinsi_id);
+        })->with('childrens.statusChildren')->get(['id','nama']);
         return response($childrens);
     }
 
     public function getAllChildrenByKotaKabupaten($kota_kabupaten_id)
     {
-        $childrens = Mother::has('childrens')->where('kota_kabupaten_id',$kota_kabupaten_id)->with('childrens.statusChildren')->get(['id','nama']);
+        $childrens = Mother::whereHas('childrens',function (Builder $query) use ($kota_kabupaten_id){
+            $query->where('kota_kabupaten_id','=',$kota_kabupaten_id);
+        })->with('childrens.statusChildren')->get(['id','nama']);
         return response($childrens);
     }
 
 
     public function getAllChildrenByKecamatan($kecamatan_id)
     {
-        $childrens = Mother::has('childrens')->where('kecamatan_id',$kecamatan_id)->with('childrens.statusChildren')->get(['id','nama']);
+        $childrens = Mother::whereHas('childrens',function (Builder $query) use ($kecamatan_id){
+            $query->where('kecamatan_id','=',$kecamatan_id);
+        })->with('childrens.statusChildren')->get(['id','nama']);
         return response($childrens);
     }
 
     public function getAllChildrenByKelurahan($kelurahan_id)
     {
-        $childrens = Mother::has('childrens')->where('kelurahan_id',$kelurahan_id)->with('childrens.statusChildren')->get(['id','nama']);
+        $childrens = Mother::whereHas('childrens',function (Builder $query) use ($kelurahan_id){
+            $query->where('kelurahan_id','=',$kelurahan_id);
+        })->with('childrens.statusChildren')->get(['id','nama']);
         return response($childrens);
     }
 
