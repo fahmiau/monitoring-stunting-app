@@ -25,4 +25,9 @@ class Article extends Model
     {
         return $this->hasOne(ArticleLike::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(ArticleImage::class);
+    }
 }

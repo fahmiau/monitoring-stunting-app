@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\ArticleImage;
 use App\Models\ArticleLike;
 use App\Models\ArticleView;
 use Illuminate\Support\Str;
@@ -51,7 +52,13 @@ class ArticleController extends Controller
             'article_id' => $article->id,
             'likes' => 0
         ]);
-
+        if (!empty($request->image_url)) {
+            ArticleImage::create([
+                'article_id' => $article->id,
+                'image_url' => $request->image_url,
+                'image_name' => $request->image_name,
+            ]);
+        }
         return response(['data' => $article,'message'=> 'success']);
     }
 
