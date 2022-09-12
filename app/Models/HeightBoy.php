@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class HeightBoy extends Model
 {
     use HasFactory;
+    
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'months',
+        'negative_3sd',
+        'negative_2sd',
+        'negative_1sd',
+        'median',
+        'positive_1sd',
+        'positive_2sd',
+        'positive_3sd',
+    ];
 }

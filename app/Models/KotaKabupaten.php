@@ -9,7 +9,10 @@ class KotaKabupaten extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = ['id','provinsi_id','kota_kabupaten'];
+    
+    public $timestamps = false;
+
 
     public function kecamatans()
     {

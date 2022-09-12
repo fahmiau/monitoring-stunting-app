@@ -9,7 +9,9 @@ class Provinsi extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = ['id','provinsi'];
+    
+    public $timestamps = false;
 
     public function kotaKabupatens()
     {

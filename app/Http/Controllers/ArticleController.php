@@ -90,6 +90,11 @@ class ArticleController extends Controller
         }
         $article = Article::where('slug',$slug)->update($request->all());
 
+        ArticleImage::where('article_id',$article->id)->update([
+            'image_url' => $request->image_url,
+            'image_name' => $request->image_name,
+        ]);
+
         return response(['slug' => $slug, 'message' => 'success']);
     }
 

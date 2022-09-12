@@ -9,7 +9,9 @@ class Kecamatan extends Model
 {
     use HasFactory;
     
-    protected $guarded = ['id'];
+    protected $fillable = ['id','kota_kabupaten_id','kecamatan'];
+    
+    public $timestamps = false;
 
     public function kelurahans()
     {
