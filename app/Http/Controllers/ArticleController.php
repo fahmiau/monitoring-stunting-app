@@ -89,7 +89,7 @@ class ArticleController extends Controller
             ]);
         }
         $article = Article::where('slug',$slug)->update($request->all());
-        if (empty($article->images)) {
+        if (count($article->images) == 0) {
             ArticleImage::create([
                 'article_id' => $article->id,
                 'image_url' => $request->image_url,
