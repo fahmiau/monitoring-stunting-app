@@ -21,7 +21,7 @@ class ArticleController extends Controller
 
     public function getPublishedArticle()
     {
-        $response = Article::where('published', 1)->with(['views','likes'])->get(['id','title','slug','excerpt','author','publish_date']);
+        $response = Article::where('published', 1)->with(['views','likes','images'])->get(['id','title','slug','excerpt','author','publish_date']);
 
         return response($response);
     }
@@ -64,7 +64,7 @@ class ArticleController extends Controller
 
     public function show($slug)
     {
-        $article = Article::where('slug',$slug)->with(['views','comments'])->first();
+        $article = Article::where('slug',$slug)->with(['views','comments','images'])->first();
         $views = ArticleView::where('article_id',$article->id)->first();
         $views->views +=1;
         $views->update();
@@ -108,6 +108,10 @@ class ArticleController extends Controller
         }
         if ($article->views){
             $article->views->delete();
+        }
+
+        if (count($article->images) > 0) {
+            $article->images->delete();
         }
         if (count($article->comments) > 0) {
             $article->comments->delete();
