@@ -94,7 +94,8 @@ class ArticleController extends Controller
         ];
         $request->request->remove('image_url');
         $request->request->remove('image_name');
-        $article = Article::where('slug',$slug)->update($request->all());
+        $article = Article::where('slug',$slug)->first();
+        $article->update($request->all());
         ArticleImage::updateOrCreate(
             ['article_id' => $article->id],
             $article_image);
