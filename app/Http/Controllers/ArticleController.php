@@ -89,14 +89,20 @@ class ArticleController extends Controller
             ]);
         }
         $article = Article::where('slug',$slug)->update($request->all());
-
-        ArticleImage::updateOrCreate(
-            ['article_id'=> $article->id],
-            [
+        if (empty($article->images)) {
+            ArticleImage::create([
+                'article_id' => $article->id,
                 'image_url' => $request->image_url,
                 'image_name' => $request->image_name,
             ]);
-
+        } else {
+            ArticleImage::where('article_id',$article->id)(
+                [
+                    'image_url' => $request->image_url,
+                    'image_name' => $request->image_name,
+                ]);
+                
+        }
         return response(['slug' => $slug, 'message' => 'success']);
     }
 
