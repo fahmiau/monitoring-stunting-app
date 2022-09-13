@@ -90,7 +90,7 @@ class ArticleController extends Controller
         }
         $article = Article::where('slug',$slug)->update($request->all());
 
-        ArticleImage::where('article_id',$article->id)->updateOrCreate(
+        ArticleImage::updateOrCreate(
             ['article_id'=> $article->id],
             [
                 'image_url' => $request->image_url,
