@@ -88,11 +88,16 @@ class ArticleController extends Controller
                 'publish_date' => date('Y-m-d')
             ]);
         }
+        $article_image = [
+            'image_url' => $request->image_url,
+            'image_name' => $request->image_name,
+        ];
+        unset($request->image_url);
+        unset($request->image_name);
         $article = Article::where('slug',$slug)->update($request->all());
-        $article_image = ArticleImage::updateOrCreate(
+        ArticleImage::updateOrCreate(
             ['article_id' => $article->id],
-            ['image_url' => $request->image_url,
-            'image_name' => $request->image_name]);
+            $article_image);
         return response(['slug' => $slug, 'message' => 'success']);
     }
 
