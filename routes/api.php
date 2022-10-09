@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/children/all/kelurahan/{kelurahan_id}',[ChildrenController::class,'getAllChildrenByKelurahan']);
     Route::get('/children/id/{id}',[ChildrenController::class,'getChildrenById']);
     Route::get('/children/mother_id/{mother_id}',[ChildrenController::class,'getChildrenByMotherId']);
+    Route::delete('/children/delete/{id}',[ChildrenController::class,'destroy']);
     
     Route::post('/data-children/add',[DataChildrenController::class,'store']);
     Route::post('/data-children/update',[DataChildrenController::class,'update']);

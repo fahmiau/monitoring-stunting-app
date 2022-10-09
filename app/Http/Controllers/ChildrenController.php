@@ -134,5 +134,22 @@ class ChildrenController extends Controller
 
         return $children;
     }
+
+    public function destroy($id)
+    {
+        $children = Children::find($id);
+        if ($children->statusChildren) {
+            $children->statusChildren->delete();
+        }
+        if ($children->dataChildrens > 0) {
+            $children->dataChildrens->each->delete();
+        }
+        $children->delete();
+        $response = [
+            'message' => 'Data Anak Berhasil Dihapus'
+        ];
+
+        return response($response);
+    }
     
 }
