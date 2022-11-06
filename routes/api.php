@@ -49,6 +49,7 @@ Route::get('/cek-status/{gender}/{bulan}/{pb}',[DataChildrenController::class,'c
 
 Route::post('/login',[LoginController::class,'loginUser']);
 Route::post('/register',[RegisterController::class,'register']);
+Route::get('/article/published',[ArticleController::class,'getPublishedArticle']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout',[LoginController::class,'logoutUser']);
@@ -84,7 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/status-stunting/all/kecamatan/{id}',[StatusChildrenController::class,'getByKecamatan']);
     Route::get('/status-stunting/all/kelurahan/{id}',[StatusChildrenController::class,'getByKelurahan']);
     
-    Route::get('/article/published',[ArticleController::class,'getPublishedArticle']);
+
     Route::get('/article/all',[ArticleController::class,'index']);
     Route::get('/article/show/{slug}',[ArticleController::class,'show']);
     Route::get('/article/admin/{slug}',[ArticleController::class,'showAdmin']);
