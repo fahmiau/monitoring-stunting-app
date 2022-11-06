@@ -54,7 +54,7 @@ class StatusChildrenController extends Controller
     public function update(Request $request)
     {
         $status_children = StatusChildren::where('id',$request->id)
-            ->update(['status_sunting' => $request->status_children]);
+            ->update(['status_stunting' => $request->status_children]);
         return response([
             'data' => $status_children,
             'message' => 'Data Berhasil Diubah'
