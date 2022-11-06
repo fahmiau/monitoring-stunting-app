@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/status-stunting/all/kota-kabupaten/{id}',[StatusChildrenController::class,'getByKotaKabupaten']);
     Route::get('/status-stunting/all/kecamatan/{id}',[StatusChildrenController::class,'getByKecamatan']);
     Route::get('/status-stunting/all/kelurahan/{id}',[StatusChildrenController::class,'getByKelurahan']);
-    
+    Route::post('/status-stunting/update/{id}',[StatusChildrenController::class,'update']);
 
     Route::get('/article/all',[ArticleController::class,'index']);
     Route::get('/article/show/{slug}',[ArticleController::class,'show']);
