@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Mother::class);
     }
+
+    public function tempat_kerja()
+    {
+        return $this->hasOne(TempatKerja::class);
+    }
 }

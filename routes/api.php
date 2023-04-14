@@ -12,8 +12,10 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\DataChildrenController;
+use App\Http\Controllers\KaderController;
 use App\Http\Controllers\KotaKabupatenController;
 use App\Http\Controllers\StatusChildrenController;
+use App\Http\Controllers\TenagaKesehatanController;
 use App\Models\Article;
 
 /*
@@ -58,6 +60,10 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     
     Route::get('/mother/all',[MotherController::class,'index']);
     Route::get('/mother/has-children',[MotherController::class,'getMotherHasChildren']);
+    Route::get('/mother/all/by-provinsi/{provinsi_id}',[MotherController::class,'getMotherByProvinsi']);
+    Route::get('/mother/all/by-kota-kabupaten/{kota_kabupaten_id}',[MotherController::class,'getMotherByKotaKab']);
+    Route::get('/mother/all/by-kecamatan/{kecamatan_id}',[MotherController::class,'getMotherByKecamatan']);
+    Route::get('/mother/all/by-kelurahan/{kelurahan_id}',[MotherController::class,'getMotherByKelurahan']);
     Route::get('/mother/mother-id/{mother_id}',[MotherController::class,'getMotherByMotherId']);
     Route::get('/mother/{user_id}',[MotherController::class,'getMotherByUserId']);
     Route::post('/mother/add',[MotherController::class,'store']);
@@ -80,6 +86,24 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
     Route::delete('/data-children/delete/{id}',[DataChildrenController::class,'destroy']);
     
+    Route::get('/nakes/all',[TenagaKesehatanController::class,'index']);
+    Route::get('/nakes/all/by-provinsi/{provinsi_id}',[TenagaKesehatanController::class,'getNakesByProvinsi']);
+    Route::get('/nakes/all/by-kota-kabupaten/{kota_kabupaten_id}',[TenagaKesehatanController::class,'getNakesByKotaKab']);
+    Route::get('/nakes/all/by-kecamatan/{kecamatan_id}',[TenagaKesehatanController::class,'getNakesByKecamatan']);
+    Route::get('/nakes/all/by-kelurahan/{kelurahan_id}',[TenagaKesehatanController::class,'getNakesByKelurahan']);
+    Route::get('/nakes/nakes-id/{nakes_id}',[TenagaKesehatanController::class,'getNakesByNakesId']);
+    Route::delete('/nakes/delete/{id}',[TenagaKesehatanController::class,'destroy']);
+    Route::post('/nakes/update/{id}',[TenagaKesehatanController::class,'update']);
+    
+    Route::get('/kader/all',[KaderController::class,'index']);
+    Route::get('/kader/all/by-provinsi/{provinsi_id}',[KaderController::class,'getKaderByProvinsi']);
+    Route::get('/kader/all/by-kota-kabupaten/{kota_kabupaten_id}',[KaderController::class,'getKaderByKotaKab']);
+    Route::get('/kader/all/by-kecamatan/{kecamatan_id}',[KaderController::class,'getKaderByKecamatan']);
+    Route::get('/kader/all/by-kelurahan/{kelurahan_id}',[KaderController::class,'getKaderByKelurahan']);
+    Route::get('/kader/kader-id/{kader_id}',[KaderController::class,'getKaderByKaderId']);
+    Route::delete('/kader/delete/{id}',[KaderController::class,'destroy']);
+    Route::post('/kader/update/{id}',[KaderController::class,'update']);
+
     Route::get('/status-stunting/all/provinsi/{id}',[StatusChildrenController::class,'getByProvinsi']);
     Route::get('/status-stunting/all/kota-kabupaten/{id}',[StatusChildrenController::class,'getByKotaKabupaten']);
     Route::get('/status-stunting/all/kecamatan/{id}',[StatusChildrenController::class,'getByKecamatan']);

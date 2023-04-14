@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Mother;
 use App\Models\TenagaKesehatan;
 use App\Models\Kader;
+use App\Models\TempatKerja;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +37,12 @@ class RegisterController extends Controller
         ]);
         $validated['user_id'] = $userId;
         $nakes = TenagaKesehatan::create($validated);
+        $tempat_kerja = TempatKerja::create([
+            'user_id' => $userId,
+            'tempat_kerja' => $request->tempat_kerja,
+            'nomor_telepon_kerja' => $request->nomor_telepon_kerja,
+            'alamat_kerja' => $request->alamat_kerja,
+        ]);
         return 'success';
     }
 

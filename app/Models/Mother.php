@@ -16,4 +16,24 @@ class Mother extends Model
         return $this->hasMany(Children::class);
     }
 
+    public function provinsi()
+    {
+        return $this->hasOne(Provinsi::class);
+    }
+
+    public function kota_kabupaten()
+    {
+        return $this->hasOne(KotaKabupaten::class);
+    }
+
+    public function kecamatan()
+    {
+        return $this->hasOne(Kecamatan::class);
+    }
+
+    public function kelurahan()
+    {
+        return $this->hasOne(Kelurahan::class);
+    }
+
 }

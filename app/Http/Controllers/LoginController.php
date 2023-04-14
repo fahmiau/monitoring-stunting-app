@@ -49,11 +49,14 @@ class LoginController extends Controller
 
     public function dashboard()
     {
+        $kader = Kader::count();
+        $nakes = TenagaKesehatan::count();
+        $mother = Mother::count();
         $data = [
-            'user' => User::count(),
-            'nakes' => TenagaKesehatan::count(),
-            'kader' => Kader::count(),
-            'mother' => Mother::count(),
+            'user' => $kader + $nakes + $mother,
+            'nakes' => $nakes,
+            'kader' => $kader,
+            'mother' => $mother,
             'article' => Article::count(),
             'children' => Children::count(),
             'status_sangat_dibawah' => StatusChildren::where('status_stunting','Sangat Dibawah Standar')->count(),

@@ -10,7 +10,11 @@ class MotherController extends Controller
 {
     public function index()
     {
-        $data = Mother::with('childrens')->get();
+        $data = Mother::with('childrens')
+            ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
+            ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
+            ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->get();
         return response($data);
     }
 
@@ -75,7 +79,6 @@ class MotherController extends Controller
             'tempat_lahir' => 'required|max:15',
             'tanggal_lahir' => 'required|date',
         ]);
-
         $mother->update($validated);
         $response = [
             'data' => $mother,
@@ -127,6 +130,46 @@ class MotherController extends Controller
     public function getMotherHasChildren()
     {
         $data = Mother::has('childrens')->with('childrens.statusChildren')->get(['id','nama']);
+        return response($data);
+    }
+
+    public function getMotherByProvinsi($provinsi_id)
+    {
+        $data = Mother::where('mothers.provinsi_id',$provinsi_id)
+            ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
+            ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
+            ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->get();
+        return response($data);
+    }
+
+    public function getMotherByKotaKab($kota_kabupaten_id)
+    {
+        $data = Mother::where('mothers.kota_kabupaten_id',$kota_kabupaten_id)
+            ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
+            ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
+            ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->get();
+        return response($data);
+    }
+
+    public function getMotherByKecamatan($kecamatan_id)
+    {
+        $data = Mother::where('mothers.kecamatan_id',$kecamatan_id)
+            ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
+            ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
+            ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->get();
+        return response($data);
+    }
+
+    public function getMotherByKelurahan($kelurahan_id)
+    {
+        $data = Mother::where('mothers.kelurahan_id',$kelurahan_id)
+            ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
+            ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
+            ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->get();
         return response($data);
     }
 }
