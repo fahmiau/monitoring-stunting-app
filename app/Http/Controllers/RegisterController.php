@@ -11,6 +11,8 @@ use App\Models\TempatKerja;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 // use App\Http\Controllers\MotherController;
 
 
@@ -123,7 +125,9 @@ class RegisterController extends Controller
             ]);
             $token = $user->createToken('apptoken')->plainTextToken;
         }
-        
+        $user->sendEmailVerificationNotification();
+        // event(new Registered($user));
+        Auth::login($user);
         $response = [
             'user' => $user,
             'role' => $role,

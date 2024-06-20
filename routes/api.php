@@ -1,22 +1,25 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
+use App\Models\User;
+use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GraphController;
+use App\Http\Controllers\KaderController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MotherController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\ProvinsiController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\DataChildrenController;
-use App\Http\Controllers\KaderController;
 use App\Http\Controllers\KotaKabupatenController;
 use App\Http\Controllers\StatusChildrenController;
 use App\Http\Controllers\TenagaKesehatanController;
-use App\Models\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,11 +52,58 @@ Route::get('/kelurahan/user/{user_id}',[KelurahanController::class,'showByUserId
 
 Route::get('/cek-status/{gender}/{bulan}/{pb}',[DataChildrenController::class,'cekStatus']);
 
-Route::post('/login',[LoginController::class,'loginUser']);
+Route::post('/login',[LoginController::class,'loginUser'])->name('login');
 Route::post('/register',[RegisterController::class,'register']);
 Route::get('/article/published',[ArticleController::class,'getPublishedArticle']);
 
+// Verify email
+// Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])
+//     ->middleware(['auth:sanctum', 'signed'])
+//     ->name('verification.verify');
+Route::get('/verification/verify/{id}/{hash}', function ($id, $hash) {
+        $user = User::find($id);
+        // return response()->json([$hash,(sha1($user->email)),((sha1($user->email)) == $hash)], 404);
+        // return response()->json([empty($user->email),(! ((sha1($user->email)) == $hash))], 404);
+        if (empty($user->email) || ! ((sha1($user->email)) == $hash)) {
+            return view('emailVerification')->with('message','Failed');
+            return response()->json(['message' => 'Invalid verification link'], 404);
+        }
+    
+        if ($user->hasVerifiedEmail()) {
+            return view('emailVerification')->with('message','Success');
+            // return response()->json(['message' => 'Email already verified']);
+        }
+    
+        $user->markEmailAsVerified();
+    
+        return response()->json(['message' => 'Email verified successfully']);
+    })->name('verification.verify');
+// Resend link to verify email
+Route::post('/email/verify/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+
 Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::middleware('verified')->group(function(){
+        Route::post('/mother/add',[MotherController::class,'store']);
+        Route::post('/mother/update/{id}',[MotherController::class,'update']);
+        Route::delete('/mother/delete/{id}',[MotherController::class,'destroy']);
+
+        Route::post('/children/add',[ChildrenController::class,'store']);
+        Route::post('/children/update',[ChildrenController::class,'update']);
+        Route::delete('/children/delete/{id}',[ChildrenController::class,'destroy']);
+
+        Route::post('/data-children/add',[DataChildrenController::class,'store']);
+        Route::post('/data-children/update',[DataChildrenController::class,'update']);
+        Route::delete('/data-children/delete/{id}',[DataChildrenController::class,'destroy']);
+        
+        Route::delete('/nakes/delete/{id}',[TenagaKesehatanController::class,'destroy']);
+        Route::post('/nakes/update/{id}',[TenagaKesehatanController::class,'update']);
+
+        Route::delete('/kader/delete/{id}',[KaderController::class,'destroy']);
+        Route::post('/kader/update/{id}',[KaderController::class,'update']);
+    });
     Route::post('/logout',[LoginController::class,'logoutUser']);
 
     Route::get('/dashboard',[LoginController::class,'dashboard']);
@@ -66,12 +116,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/mother/all/by-kelurahan/{kelurahan_id}',[MotherController::class,'getMotherByKelurahan']);
     Route::get('/mother/mother-id/{mother_id}',[MotherController::class,'getMotherByMotherId']);
     Route::get('/mother/{user_id}',[MotherController::class,'getMotherByUserId']);
-    Route::post('/mother/add',[MotherController::class,'store']);
-    Route::post('/mother/update/{id}',[MotherController::class,'update']);
-    Route::delete('/mother/delete/{id}',[MotherController::class,'destroy']);
-    
-    Route::post('/children/add',[ChildrenController::class,'store']);
-    Route::post('/children/update',[ChildrenController::class,'update']);
+
     Route::get('/children/all',[ChildrenController::class,'getAllChildren']);
     Route::get('/children/all/provinsi/{provinsi_id}',[ChildrenController::class,'getAllChildrenByProvinsi']);
     Route::get('/children/all/kota-kabupaten/{kota_kabupaten_id}',[ChildrenController::class,'getAllChildrenByKotaKabupaten']);
@@ -79,21 +124,15 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/children/all/kelurahan/{kelurahan_id}',[ChildrenController::class,'getAllChildrenByKelurahan']);
     Route::get('/children/id/{id}',[ChildrenController::class,'getChildrenById']);
     Route::get('/children/mother_id/{mother_id}',[ChildrenController::class,'getChildrenByMotherId']);
-    Route::delete('/children/delete/{id}',[ChildrenController::class,'destroy']);
-    
-    Route::post('/data-children/add',[DataChildrenController::class,'store']);
-    Route::post('/data-children/update',[DataChildrenController::class,'update']);
+
     Route::get('/data-children/by-child-id/{children_id}',[DataChildrenController::class,'getByChild']);
-    Route::delete('/data-children/delete/{id}',[DataChildrenController::class,'destroy']);
-    
+
     Route::get('/nakes/all',[TenagaKesehatanController::class,'index']);
     Route::get('/nakes/all/by-provinsi/{provinsi_id}',[TenagaKesehatanController::class,'getNakesByProvinsi']);
     Route::get('/nakes/all/by-kota-kabupaten/{kota_kabupaten_id}',[TenagaKesehatanController::class,'getNakesByKotaKab']);
     Route::get('/nakes/all/by-kecamatan/{kecamatan_id}',[TenagaKesehatanController::class,'getNakesByKecamatan']);
     Route::get('/nakes/all/by-kelurahan/{kelurahan_id}',[TenagaKesehatanController::class,'getNakesByKelurahan']);
     Route::get('/nakes/nakes-id/{nakes_id}',[TenagaKesehatanController::class,'getNakesByNakesId']);
-    Route::delete('/nakes/delete/{id}',[TenagaKesehatanController::class,'destroy']);
-    Route::post('/nakes/update/{id}',[TenagaKesehatanController::class,'update']);
     
     Route::get('/kader/all',[KaderController::class,'index']);
     Route::get('/kader/all/by-provinsi/{provinsi_id}',[KaderController::class,'getKaderByProvinsi']);
@@ -101,8 +140,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/kader/all/by-kecamatan/{kecamatan_id}',[KaderController::class,'getKaderByKecamatan']);
     Route::get('/kader/all/by-kelurahan/{kelurahan_id}',[KaderController::class,'getKaderByKelurahan']);
     Route::get('/kader/kader-id/{kader_id}',[KaderController::class,'getKaderByKaderId']);
-    Route::delete('/kader/delete/{id}',[KaderController::class,'destroy']);
-    Route::post('/kader/update/{id}',[KaderController::class,'update']);
 
     Route::get('/status-stunting/all/provinsi/{id}',[StatusChildrenController::class,'getByProvinsi']);
     Route::get('/status-stunting/all/kota-kabupaten/{id}',[StatusChildrenController::class,'getByKotaKabupaten']);

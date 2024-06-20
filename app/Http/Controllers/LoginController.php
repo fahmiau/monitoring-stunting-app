@@ -33,10 +33,13 @@ class LoginController extends Controller
         $user->tokens()->delete();
         $token = $user->createToken('apptoken')->plainTextToken;
         $role = $user->role;
+        // $user = Auth::user();
+        ;
         return response([
             'user' => $user,
             'token' => $token,
-            'role' => $role
+            'role' => $role,
+            'verified' => $user->hasVerifiedEmail(),
         ]);
     }
 

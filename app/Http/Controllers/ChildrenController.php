@@ -141,7 +141,7 @@ class ChildrenController extends Controller
         if ($children->statusChildren) {
             $children->statusChildren->delete();
         }
-        if ($children->dataChildrens > 0) {
+        if (count($children->dataChildrens) > 0) {
             $children->dataChildrens->each->delete();
         }
         $children->delete();
