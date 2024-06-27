@@ -22,7 +22,7 @@ class CreateChildrensTable extends Migration
             $table->char('anak_ke',2);
             $table->char('nik',16)->unique();
             $table->string('alamat');
-            $table->char('tempat_lahir',15);
+            $table->char('tempat_lahir',30);
             $table->date('tanggal_lahir');
             $table->foreignId('provinsi_id')->constrained();
             $table->foreignId('kota_kabupaten_id')->constrained();

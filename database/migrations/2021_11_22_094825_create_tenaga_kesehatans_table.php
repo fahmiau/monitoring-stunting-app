@@ -22,7 +22,7 @@ class CreateTenagaKesehatansTable extends Migration
             $table->foreignId('kota_kabupaten_id')->constrained();
             $table->foreignId('provinsi_id')->constrained();
             $table->string('alamat');
-            $table->char('nomor_telepon',14);
+            $table->char('nomor_telepon',15);
             $table->timestamps();
         });
     }

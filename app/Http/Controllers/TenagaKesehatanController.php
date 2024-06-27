@@ -213,7 +213,7 @@ class TenagaKesehatanController extends Controller
         //     ->join('users','tenaga_kesehatans.user_id','=','users.id')
         //     ->select('tenaga_kesehatans.*','roles.category','tempat_kerjas.tempat_kerja','users.name','users.email')
         //     ->get();
-        $nakes = TenagaKesehatan::where('id',$nakes_id)->with('user.tempat_kerja','user.role')->first();
+        $nakes = TenagaKesehatan::where('id',$nakes_id)->with('user.tempatKerja','user.role')->first();
         return response($nakes);
     }
 

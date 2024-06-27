@@ -45,7 +45,6 @@ class KelurahanController extends Controller
     {
         $user = User::find($user_id);
 
-        
         switch ($user->role->category) {
             case 'Perawat':
             case 'Bidan';

@@ -17,7 +17,7 @@ class CreateTempatKerjasTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->char('tempat_kerja',255);
-            $table->char('nomor_telepon_kerja',14);
+            $table->char('nomor_telepon_kerja',15);
             $table->char('alamat_kerja',255);
             $table->timestamps();
         });

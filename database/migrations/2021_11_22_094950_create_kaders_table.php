@@ -21,7 +21,7 @@ class CreateKadersTable extends Migration
             $table->foreignId('kecamatan_id')->constrained();
             $table->foreignId('kota_kabupaten_id')->constrained();
             $table->foreignId('provinsi_id')->constrained();
-            $table->char('nomor_telepon',14);
+            $table->char('nomor_telepon',15);
             $table->string('alamat');
             $table->timestamps();
         });

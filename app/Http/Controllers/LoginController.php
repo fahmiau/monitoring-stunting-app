@@ -19,7 +19,8 @@ class LoginController extends Controller
     public function loginUser(Request $request)
     {
         $request->validate([
-            'email' => 'required|email:dns',
+            'email' => 'required',
+            // 'email' => 'required|email:dns',
             'password' => 'required',
         ]);
     
@@ -34,7 +35,6 @@ class LoginController extends Controller
         $token = $user->createToken('apptoken')->plainTextToken;
         $role = $user->role;
         // $user = Auth::user();
-        ;
         return response([
             'user' => $user,
             'token' => $token,
