@@ -15,7 +15,7 @@ class KaderSeeder extends Seeder
     public function run($kelurahan_id)
     {
         $users = User::factory(3)
-            ->hasNakes([
+            ->hasKader([
                 'kelurahan_id' => $kelurahan_id->id,
                 'kecamatan_id' => $kelurahan_id->kecamatan->id,
                 'kota_kabupaten_id' => $kelurahan_id->kecamatan->kotaKabupaten->id,

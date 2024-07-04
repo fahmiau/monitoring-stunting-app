@@ -5,24 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ArticleComment extends Model
+class ReplyComment extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function article()
+    public function comment()
     {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(ArticleComment::class);
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(ReplyComment::class);
     }
 }

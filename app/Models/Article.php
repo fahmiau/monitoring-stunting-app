@@ -23,7 +23,7 @@ class Article extends Model
 
     public function likes()
     {
-        return $this->hasOne(ArticleLike::class);
+        return $this->hasMany(ArticleLike::class);
     }
 
     public function images()

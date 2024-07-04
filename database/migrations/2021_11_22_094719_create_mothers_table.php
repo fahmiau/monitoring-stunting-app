@@ -20,7 +20,7 @@ class CreateMothersTable extends Migration
             $table->char('nik',16)->unique();
             $table->char('golongan_darah',2);
             $table->char('pendidikan',5);
-            $table->char('pekerjaan',30);
+            $table->char('pekerjaan',50);
             $table->foreignId('kelurahan_id')->constrained();
             $table->foreignId('kecamatan_id')->constrained();
             $table->foreignId('kota_kabupaten_id')->constrained();

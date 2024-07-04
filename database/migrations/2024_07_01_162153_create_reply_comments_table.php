@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticleLikesTable extends Migration
+class CreateReplyCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateArticleLikesTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_likes', function (Blueprint $table) {
+        Schema::create('reply_comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('article_comment_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('article_id')->constrained();
-            $table->boolean('liked')->default(false);
+            $table->string('reply_comment');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateArticleLikesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_likes');
+        Schema::dropIfExists('reply_comments');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleCommentController;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
@@ -83,7 +84,7 @@ Route::post('/email/verify/resend', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
-
+Route::get('/article/show/{slug}',[ArticleController::class,'show']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::middleware('verified')->group(function(){
         Route::post('/mother/add',[MotherController::class,'store']);
@@ -148,11 +149,15 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/status-stunting/update',[StatusChildrenController::class,'update']);
 
     Route::get('/article/all',[ArticleController::class,'index']);
-    Route::get('/article/show/{slug}',[ArticleController::class,'show']);
+
     Route::get('/article/admin/{slug}',[ArticleController::class,'showAdmin']);
 
     Route::post('/article/store',[ArticleController::class,'store']);
     Route::post('/article/update/{slug}',[ArticleController::class,'update']);
+    Route::post('/article/like-toggle',[ArticleController::class,'articleLike']);
+    Route::post('/article/comment/add',[ArticleCommentController::class,'store']);
+    Route::post('/article/reply-comment/add',[ArticleCommentController::class,'replyStore']);
+    
     Route::delete('/article/delete/{slug}',[ArticleController::class,'delete']);
 
     // Route::get('/get-post-comments/{id}',[]);

@@ -14,7 +14,9 @@ class KaderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nik' => $this->faker->unique()->nik(),
+            'alamat' => $this->faker->address(),
+            'nomor_telepon' => $this->faker->numerify('############'),
         ];
     }
 }

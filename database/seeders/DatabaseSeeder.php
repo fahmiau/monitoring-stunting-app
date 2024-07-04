@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(DataDaerahSeeder::class);
-        // $this->call(DataGrafikSeeder::class);
+        $this->call(DataDaerahSeeder::class);
+        $this->call(DataGrafikSeeder::class);
         $kelurahans = [
             Kelurahan::find(3273120003), //Ujung berung
             Kelurahan::find(3273120006), //cigending
