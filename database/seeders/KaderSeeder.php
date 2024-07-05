@@ -21,6 +21,9 @@ class KaderSeeder extends Seeder
                 'kota_kabupaten_id' => $kelurahan_id->kecamatan->kotaKabupaten->id,
                 'provinsi_id' => $kelurahan_id->kecamatan->kotaKabupaten->provinsi->id
             ])
+            ->hasRole([
+                'category' => 'Kader'
+            ])
             ->create();
     }
 }

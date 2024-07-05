@@ -70,7 +70,6 @@ class KaderController extends Controller
             ->join('kelurahans','kaders.kelurahan_id','=','kelurahans.id')
             ->select('kaders.*','roles.category','users.name as name','kecamatans.kecamatan','kelurahans.kelurahan')
             ->get();
-        
             return response($data);
     }
 

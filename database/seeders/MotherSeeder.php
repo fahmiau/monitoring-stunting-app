@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Children;
 use App\Models\DataChildren;
 use App\Models\Kelurahan;
+use App\Models\Role;
 use App\Models\StatusChildren;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,6 +30,10 @@ class MotherSeeder extends Seeder
             ])->create();
         foreach ($users as $user) {
             $mother = $user->mothers()->first();
+            $role = Role::create([
+                'user_id' => $user->id,
+                'category' => 'User'
+            ]);
             $children = Children::factory()
                 ->for($mother)
                 ->create([
