@@ -19,7 +19,7 @@
       <div class="min-h-screen flex flex-wrap content-center justify-center">
         <div class="w-1/3 p-8 shadow-md rounded-md bg-gray-100">
           <div class="ml-2 text-medium">
-            {{ (($message == 'Success') ? 'Email Berhasil Diverifikasi, Silahkan Login' : 'Email gagal diverifikasi') }}
+            {{ $message }}
           </div>
         </div>
       </div>

@@ -65,19 +65,19 @@ Route::get('/verification/verify/{id}/{hash}', function ($id, $hash) {
         $user = User::find($id);
         // return response()->json([$hash,(sha1($user->email)),((sha1($user->email)) == $hash)], 404);
         // return response()->json([empty($user->email),(! ((sha1($user->email)) == $hash))], 404);
-        if (empty($user->email) || ! ((sha1($user->email)) == $hash)) {
-            return view('emailVerification')->with('message','Failed');
-            return response()->json(['message' => 'Invalid verification link'], 404);
+        if (empty($user->email) || (! ((sha1($user->email)) == $hash))) {
+            return view('emailVerification')->with('status','Failed')->with('message','Email Gagal Diverifikasi');
+            // return response()->json(['message' => 'Invalid verification link'], 404);
         }
     
         if ($user->hasVerifiedEmail()) {
-            return view('emailVerification')->with('message','Success');
+            return view('emailVerification')->with('status','Success')->with('message','Email Sudah Terverifikasi');
             // return response()->json(['message' => 'Email already verified']);
         }
     
         $user->markEmailAsVerified();
     
-        return response()->json(['message' => 'Email verified successfully']);
+        return view('emailVerification')->with('status','Success')->with('message','Email Berhasil Diverifikasi');
     })->name('verification.verify');
 // Resend link to verify email
 Route::post('/email/verify/resend', function (Request $request) {
