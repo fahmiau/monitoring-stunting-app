@@ -220,10 +220,11 @@ class TenagaKesehatanController extends Controller
     public function destroy($id)
     {
         $nakes = TenagaKesehatan::find($id);
-        $user = User::where('id',$nakes['user_id'])->first();
-        $tempat_kerja = TempatKerja::where('user_id',$nakes['user_id'])->first();
-        $nakes->delete();
+        $user = User::find($nakes->user_id);
+        $tempat_kerja = TempatKerja::where('user_id',$user->id)->first();
         $tempat_kerja->delete();
+        $nakes->delete();
+        $user->role->delete();
         $user->delete();
         $response = ['message' => 'Data Nakes Berhasil Dihapus'];
         return response($response);
