@@ -36,7 +36,7 @@ class KelurahanController extends Controller
     }
 
     public function showByKecamatan($kecamatan_id){
-        $kelurahan = Kelurahan::where('kecamatan_id',$kecamatan_id)->get();
+        $kelurahan = Kelurahan::where('kecamatan_id',$kecamatan_id)->orderBy('kelurahan')->get();
         
         return response($kelurahan);
     }

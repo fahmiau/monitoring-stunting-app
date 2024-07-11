@@ -25,7 +25,7 @@ class KecamatanController extends Controller
     }
 
     public function showByKotaKabupaten($kota_kabupaten_id){
-        $kecamatan = Kecamatan::where('kota_kabupaten_id',$kota_kabupaten_id)->get();
+        $kecamatan = Kecamatan::where('kota_kabupaten_id',$kota_kabupaten_id)->orderBy('kecamatan')->get();
         return response()->json($kecamatan);
     }
 }

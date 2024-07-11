@@ -9,7 +9,7 @@ use App\Models\Provinsi;
 class KotaKabupatenController extends Controller
 {
     public function all(){
-        $kota_kabupaten = KotaKabupaten::all();
+        $kota_kabupaten = KotaKabupaten::orderBy('kota_kabupaten')->get();
 
         return response()->json($kota_kabupaten);
     }
@@ -23,7 +23,7 @@ class KotaKabupatenController extends Controller
     }
 
     public function showByProvinsi($provinsi_id){
-        $kota_kabupaten = KotaKabupaten::where('provinsi_id',$provinsi_id)->get();
+        $kota_kabupaten = KotaKabupaten::where('provinsi_id',$provinsi_id)->orderBy('kota_kabupaten')->get();
         return response()->json($kota_kabupaten);
     }
 }

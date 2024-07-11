@@ -8,7 +8,7 @@ use App\Models\Provinsi;
 class ProvinsiController extends Controller
 {
     public function all(){
-        $provinsi = Provinsi::all();
+        $provinsi = Provinsi::orderBy('provinsi')->get();
 
         return response()->json($provinsi);
     }
