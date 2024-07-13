@@ -165,7 +165,7 @@ class ArticleController extends Controller
             $like = ArticleLike::create([
                 'article_id' => $request->article_id,
                 'user_id' => Auth::id(),
-                'likes' => $request->liked
+                'likes' => true
             ]);
         }
         else {
