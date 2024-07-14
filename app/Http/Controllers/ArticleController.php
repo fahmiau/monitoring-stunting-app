@@ -137,23 +137,36 @@ class ArticleController extends Controller
 
     public function delete($slug)
     {
-        $article = Article::where('slug',$slug)->first();
-        // $article_views = ArticleView::where('article_id',$article->id)->delete();
-        // $article_likes = ArticleView::where('article_id',$article->id)->delete();
-        if (count($article->likes) > 0){
-            $article->likes->delete();
+        $article = Article::where('slug', $slug)->first();
+
+        // Delete likes
+        if ($article->likes->count() > 0) {
+            $article->likes->each->delete();
         }
-        if ($article->views){
+
+        // Delete views
+        if ($article->views) {
             $article->views->delete();
         }
 
-        if (count($article->images) > 0) {
-            $article->images->delete();
+        // Delete images
+        if ($article->images->count() > 0) {
+            $article->images->each->delete();
         }
-        if (count($article->comments) > 0) {
-            $article->comments->delete();
+
+        // Delete comments and their replies
+        if ($article->comments->count() > 0) {
+            $article->comments->each(function ($comment) {
+                if ($comment->replies->count() > 0) {
+                    $comment->replies->each->delete();
+                }
+                $comment->delete();
+            });
         }
+
+        // Delete the article
         $article->delete();
+
         return response(['message' => 'Artikel Berhasil Dihapus']);
     }
 
