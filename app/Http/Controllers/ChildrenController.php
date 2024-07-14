@@ -18,7 +18,7 @@ class ChildrenController extends Controller
             'mother_id' => 'required|exists:App\Models\Mother,id',
             'nama' => 'required|max:100',
             'jenis_kelamin' => 'required',
-            'no_akta' => 'required|unique:childrens|size:21',
+            'no_akta' => 'required|unique:childrens',
             'anak_ke' => 'required|numeric|min:1',
             'nik' => 'required|unique:childrens|size:16',
             'alamat' => 'required|max:255',
