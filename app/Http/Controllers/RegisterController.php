@@ -26,46 +26,38 @@ class RegisterController extends Controller
         
     // }
 
-    public function nakesCreate($request,$userId)
+    public function nakesCreate($validated,$user_id)
     {
-        $validated = $request->validate([
-            'nik' => 'required|size:16|unique:tenaga_kesehatans',
-            'provinsi_id' => 'required|exists:App\Models\Provinsi,id',
-            'kota_kabupaten_id' => 'required|exists:App\Models\KotaKabupaten,id',
-            'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
-            'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
-            'alamat' => 'required|max:255',
-            'nomor_telepon' => 'required|max:15',
-        ]);
-        $validated['user_id'] = $userId;
+        
+        $validated['user_id'] = $user_id;
         $nakes = TenagaKesehatan::create($validated);
         $tempat_kerja = TempatKerja::create([
-            'user_id' => $userId,
-            'tempat_kerja' => $request->tempat_kerja,
-            'nomor_telepon_kerja' => $request->nomor_telepon_kerja,
-            'alamat_kerja' => $request->alamat_kerja,
+            'user_id' => $user_id,
+            'tempat_kerja' => $validated['tempat_kerja'],
+            'nomor_telepon_kerja' => $validated['nomor_telepon_kerja'],
+            'alamat_kerja' => $validated['alamat_kerja'],
         ]);
         return 'success';
     }
 
-    public function kaderCreate($request, $userId)
+    public function kaderCreate($validated,$user_id)
     {
-        $validated = $request->validate([
-            'nik' => 'required|size:16|unique:kaders',
-            'provinsi_id' => 'required|exists:App\Models\Provinsi,id',
-            'kota_kabupaten_id' => 'required|exists:App\Models\KotaKabupaten,id',
-            'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
-            'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
-            'alamat' => 'required|max:255',
-            'nomor_telepon' => 'required|max:15',
-        ]);
-        $validated['user_id'] = $userId;
+        
+        $validated['user_id'] = $user_id;
         $kader = Kader::create($validated);
         return 'success';
     }
 
-    public function motherCreate($request,$userId)
+    public function motherCreate($validated,$user_id,$user_name)
     {
+        
+        $validated['user_id'] = $user_id;
+        $validated['nama'] = $user_name;
+        $mother = Mother::create($validated);
+        return 'success';
+    }
+
+    function motherValidate($request) {
         $validated = $request->validate([
             'nik' => 'required|size:16|unique:mothers',
             'golongan_darah' => 'required',
@@ -80,10 +72,35 @@ class RegisterController extends Controller
             'tempat_lahir' => 'required|max:15',
             'tanggal_lahir' => 'required|date',
         ]);
-        $validated['user_id'] = $userId;
-        $validated['nama'] = $request->name;
-        $mother = Mother::create($validated);
-        return 'success';
+        return $validated;
+    }
+
+    function nakesValidate($request) {
+        $validated = $request->validate([
+            'nik' => 'required|size:16|unique:tenaga_kesehatans',
+            'provinsi_id' => 'required|exists:App\Models\Provinsi,id',
+            'kota_kabupaten_id' => 'required|exists:App\Models\KotaKabupaten,id',
+            'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
+            'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
+            'alamat' => 'required|max:255',
+            'nomor_telepon' => 'required|max:15',
+            'tempat_kerja' => 'required',
+            'nomor_telepon_kerja' => 'required',
+            'alamat_kerja' => 'required',
+        ]);
+        return $validated;
+    }
+    function kaderValidate($request) {
+        $validated = $request->validate([
+            'nik' => 'required|size:16|unique:kaders',
+            'provinsi_id' => 'required|exists:App\Models\Provinsi,id',
+            'kota_kabupaten_id' => 'required|exists:App\Models\KotaKabupaten,id',
+            'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
+            'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
+            'alamat' => 'required|max:255',
+            'nomor_telepon' => 'required|max:15',
+        ]);
+        return $validated;
     }
 
     public function register(Request $request)
@@ -95,30 +112,36 @@ class RegisterController extends Controller
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-        $user = User::create($validated);
         if (isset($request->category)) {
-            $role = Role::create([
-                'user_id' => $user->id,
-                'category' => $request->category,
-            ]);
-            $token = '';
             switch ($request->category) {
                 case 'User':
-                    $mother = $this->motherCreate($request,$user->id);
+                    $data = $this->motherValidate($request);
+                    $user = User::create($validated);
+                    $mother = $this->motherCreate($data,$user->id,$user->name);
                     break;
                 case 'Kader':
-                    $kader = $this->kaderCreate($request,$user->id);
+                    $data = $this->kaderValidate($request);
+                    $user = User::create($validated);
+                    $kader = $this->kaderCreate($data,$user->id);
                     break;
                 case 'Perawat':
                 case 'Bidan':
-                    $nakes = $this->nakesCreate($request,$user->id);
+                    $data = $this->nakesValidate($request);
+                    $user = User::create($validated);
+                    $nakes = $this->nakesCreate($data,$user->id);
                     break;
                 case 'Admin':
                     break;
                 default:
                     break;
             }
+            $role = Role::create([
+                'user_id' => $user->id,
+                'category' => $request->category,
+            ]);
+            $token = '';
         } else {
+            $user = User::create($validated);
             $role = Role::create([
                 'user_id' => $user->id,
                 'category' => 'User',
