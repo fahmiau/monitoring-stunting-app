@@ -139,6 +139,7 @@ class MotherController extends Controller
             ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
             ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->with('childrens')
             ->get();
         return response($data);
@@ -150,6 +151,7 @@ class MotherController extends Controller
             ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
             ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->with('childrens')
             ->get();
         return response($data);
@@ -161,6 +163,7 @@ class MotherController extends Controller
             ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
             ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->with('childrens')
             ->get();
         return response($data);
@@ -172,6 +175,7 @@ class MotherController extends Controller
             ->join('kecamatans','mothers.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','mothers.kelurahan_id','=','kelurahans.id')
             ->select('mothers.*','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->with('childrens')
             ->get();
         return response($data);

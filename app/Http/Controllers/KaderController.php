@@ -28,6 +28,7 @@ class KaderController extends Controller
             ->join('kecamatans','kaders.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','kaders.kelurahan_id','=','kelurahans.id')
             ->select('kaders.*','roles.category','users.name as name','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
@@ -41,6 +42,7 @@ class KaderController extends Controller
             ->join('roles','kaders.user_id','=','roles.user_id')
             ->join('users','kaders.user_id','=','users.id')
             ->select('kecamatans.kecamatan','kelurahans.kelurahan','kaders.*','roles.category','users.name as name')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
@@ -55,6 +57,7 @@ class KaderController extends Controller
             ->join('kecamatans','kaders.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','kaders.kelurahan_id','=','kelurahans.id')
             ->select('kaders.*','roles.category','users.name as name','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
@@ -69,6 +72,7 @@ class KaderController extends Controller
             ->join('kecamatans','kaders.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','kaders.kelurahan_id','=','kelurahans.id')
             ->select('kaders.*','roles.category','users.name as name','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
             return response($data);
     }

@@ -37,6 +37,7 @@ class TenagaKesehatanController extends Controller
             ->join('kecamatans','tenaga_kesehatans.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','tenaga_kesehatans.kelurahan_id','=','kelurahans.id')
             ->select('tenaga_kesehatans.*','roles.category','tempat_kerjas.tempat_kerja','users.name','users.email','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
@@ -51,6 +52,7 @@ class TenagaKesehatanController extends Controller
             ->join('kecamatans','tenaga_kesehatans.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','tenaga_kesehatans.kelurahan_id','=','kelurahans.id')
             ->select('tenaga_kesehatans.*','roles.category','tempat_kerjas.tempat_kerja','users.name','users.email','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
@@ -67,6 +69,7 @@ class TenagaKesehatanController extends Controller
             ->join('kelurahans','tenaga_kesehatans.kelurahan_id','=','kelurahans.id')
             // ->select('tenaga_kesehatans.*','roles.category','tempat_kerjas.tempat_kerja','users.name','users.email')
             ->select('tenaga_kesehatans.*','roles.category','tempat_kerjas.tempat_kerja','users.name','users.email','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
@@ -82,6 +85,7 @@ class TenagaKesehatanController extends Controller
             ->join('kecamatans','tenaga_kesehatans.kecamatan_id','=','kecamatans.id')
             ->join('kelurahans','tenaga_kesehatans.kelurahan_id','=','kelurahans.id')
             ->select('tenaga_kesehatans.*','roles.category','tempat_kerjas.tempat_kerja','users.name','users.email','kecamatans.kecamatan','kelurahans.kelurahan')
+            ->orderBy('created_at', 'desc')
             ->get();
         
             return response($data);
